@@ -70,7 +70,7 @@ public final class PostUndoAction implements TaskAction
                         context,
                         id,
                         new Intent(context, ActionReceiver.class).setData(taskUri).setAction(ActionService.ACTION_UNDO_COMPLETE),
-                        PendingIntent.FLAG_CANCEL_CURRENT));
+                        PendingIntent.FLAG_IMMUTABLE));
         builder.setContent(undoView);
 
         // When the notification is cleared, we perform the destructive action
@@ -78,10 +78,10 @@ public final class PostUndoAction implements TaskAction
                 context,
                 id,
                 new Intent(context, ActionReceiver.class).setData(taskUri).setAction(ActionService.ACTION_FINISH_COMPLETE),
-                PendingIntent.FLAG_CANCEL_CURRENT));
+                PendingIntent.FLAG_IMMUTABLE));
         builder.setShowWhen(false);
         builder.setGroup(GROUP_UNDO);
-        builder.setColor(new AttributeColor(new ContextThemeWrapper(context, R.style.OpenTasks_Theme_Default), R.attr.colorPrimary).argb());
+        builder.setColor(new AttributeColor(new ContextThemeWrapper(context, org.dmfs.tasks.theme.R.style.OpenTasks_Theme_Default), org.dmfs.android.carrot.R.attr.colorPrimary).argb());
 
         NotificationManagerCompat.from(context).notify("tasks.undo", id, builder.build());
     }

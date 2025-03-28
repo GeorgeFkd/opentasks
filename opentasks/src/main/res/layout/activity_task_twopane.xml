@@ -42,6 +42,7 @@
             android:elevation="8dp"
             android:background="@drawable/opentasks_popup_background_mtrl_mult" />
 
+
     <androidx.viewpager.widget.ViewPager xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/pager"
             android:layout_width="432dp"

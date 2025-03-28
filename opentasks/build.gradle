@@ -4,26 +4,24 @@ if (project.hasProperty('PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS')) {
 }
 // commit number is only relevant to the application project
 def gitCommitNo = { ref ->
-    def stdout = new ByteArrayOutputStream()
     try {
-        exec {
+        return Integer.parseInt(providers.exec {
             commandLine 'git', 'rev-list', '--count', ref
-            standardOutput = stdout
-        }
-
-        return Integer.parseInt(stdout.toString().trim())
-    }
-    catch (Exception e) {
+            ignoreExitValue true
+        }.standardOutput.asText.get().trim())
+    } catch (e) {
+        logger.warn("Failed to get Git version: ${e.message}")
         return 0
     }
 }
 
 android {
-    compileSdkVersion COMPILE_SDK_VERSION.toInteger()
+    compileSdkVersion 34
+    namespace 'org.dmfs.tasks'
     defaultConfig {
         applicationId "org.dmfs.tasks"
-        minSdkVersion MIN_SDK_VERSION.toInteger()
-        targetSdkVersion TARGET_SDK_VERSION.toInteger()
+        minSdkVersion 21
+        targetSdkVersion 34
         // spread version code to allow inserting versions if necessary
         versionCode gitCommitNo('refs/remotes/origin/master') * 99 + gitCommitNo('HEAD') + Integer.parseInt(VERSION_OVERRIDE)
         versionName version
@@ -45,7 +43,7 @@ android {
                 signingConfig signingConfigs.release
             }
             minifyEnabled true
-            proguardFiles 'proguard.cfg'
+
         }
     }
     packagingOptions {
@@ -60,86 +58,89 @@ android {
         disable 'MissingTranslation' // TODO
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
 }
+project.logger.info("The dependencies are",deps,deps["support_appcompat"])
+def jems_version = '1.43'
+def androidx_test_runner_version = '1.6.2'
 
 dependencies {
     implementation project(':opentasks-theme')
     implementation project(':opentasks-provider')
-    implementation deps.support_appcompat
-    implementation deps.support_design
-    implementation(deps.xml_magic) {
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation "com.google.android.material:material:1.12.0"
+    implementation('org.dmfs:android-xml-magic:0.1.1') {
         // xmlpull is part of the runtime, so don't pull it in here
         exclude group: 'xmlpull', module: 'xmlpull'
     }
-    implementation deps.android_dashclock
-    implementation deps.color_picker
-    implementation(deps.codeka_carrot) {
+    implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
+    implementation 'com.github.dmfs:color-picker:1.3'
+    implementation('au.com.codeka:carrot:2.4.0') {
         exclude module: 'iterators' // TODO Remove when iterators have been removed from codeka:carrot
     }
-    implementation(deps.android_carrot) {
+    implementation("com.github.dmfs.androidcarrot:androidcarrot:13edc04") {
         exclude module: 'carrot'
         exclude module: 'iterators'
         exclude module: 'jems'
     }
-    implementation deps.jems
-    implementation deps.datetime
-    implementation deps.bolts_color
-    implementation deps.retention_magic
+    implementation "org.dmfs:jems:$jems_version"
+    implementation "org.dmfs:rfc5545-datetime:0.3"
+    implementation "com.github.dmfs.Bolts:color-bolts:0.1"
+    implementation "com.github.dmfs:retention-magic:1.3"
 
-    testImplementation deps.junit
-    testImplementation deps.robolectric
-    testImplementation deps.jems_testing
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.robolectric:robolectric:3.5.1"
+    testImplementation "org.dmfs:jems-testing:$jems_version"
 
-    androidTestImplementation deps.support_test_runner
-    androidTestImplementation deps.support_test_rules
+    androidTestImplementation "androidx.test:runner:1.6.2"
+    androidTestImplementation "androidx.test:rules:1.6.1"
     implementation project(path: ':opentaskspal')
 
     implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
-    implementation 'androidx.preference:preference:1.1.1'
+    implementation 'androidx.preference:preference:1.2.1'
     implementation 'com.maltaisn:recurpicker:2.1.4'
 }
 
-if (project.hasProperty('PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS')) {
-    play {
-        serviceAccountCredentials = file(PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS)
-        // the track is determined automatically by the version number format
-        switch (version) {
-            case ~/^(\d+)(\.\d+)*(-\d+-[\w\d]+)?-dirty$/:
-                // work in progress goes to the internal track
-                track = "internal"
-                break
-            case ~/^(\d+)(\.\d+)*-\d+-[\w\d]+$/:
-                // untagged commits go to alpha
-                track = "alpha"
-                break
-            case ~/^(\d+)(\.\d+)*$/:
-                // tagged commits to go beta, from where they get promoted to releases
-                track = "beta"
-                break
-            default:
-                throw new IllegalArgumentException("Unrecognized version format")
-        }
-    }
-}
+//if (project.hasProperty('PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS')) {
+//    play {
+//        serviceAccountCredentials = file(PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS)
+//        // the track is determined automatically by the version number format
+//        switch (version) {
+//            case ~/^(\d+)(\.\d+)*(-\d+-[\w\d]+)?-dirty$/:
+//                // work in progress goes to the internal track
+//                track = "internal"
+//                break
+//            case ~/^(\d+)(\.\d+)*-\d+-[\w\d]+$/:
+//                // untagged commits go to alpha
+//                track = "alpha"
+//                break
+//            case ~/^(\d+)(\.\d+)*$/:
+//                // tagged commits to go beta, from where they get promoted to releases
+//                track = "beta"
+//                break
+//            default:
+//                throw new IllegalArgumentException("Unrecognized version format")
+//        }
+//    }
+//}
 
-task postVersion {
-    doLast {
-        if (project.hasProperty('OPENTASKS_API_KEY')) {
-            // publish version number on api.opentasks.app
-            ((HttpURLConnection) new URL('https://opentasks-app.appspot.com/v1/app/latest_version/').openConnection()).with({
-                requestMethod = 'POST'
-                doOutput = true
-                setRequestProperty('Content-Type', 'application/x-www-form-urlencoded')
-                setRequestProperty('Authorization', "Token token=\"${OPENTASKS_API_KEY}\"")
-                outputStream.withPrintWriter({ printWriter ->
-                    printWriter.write("version_code=${project.android.defaultConfig.versionCode}&version_name=${project.android.defaultConfig.versionName}")
-                })
-                content
-            })
-        }
-    }
-}
+//task postVersion {
+//    doLast {
+//        if (project.hasProperty('OPENTASKS_API_KEY')) {
+//            // publish version number on api.opentasks.app
+//            ((HttpsURLConnection) new URL('https://opentasks-app.appspot.com/v1/app/latest_version/').openConnection()).with({
+//                requestMethod = 'POST'
+//                doOutput = true
+//                setRequestProperty('Content-Type', 'application/x-www-form-urlencoded')
+//                setRequestProperty('Authorization', "Token token=\"${OPENTASKS_API_KEY}\"")
+//                outputStream.withPrintWriter({ printWriter ->
+//                    printWriter.write("version_code=${project.android.defaultConfig.versionCode}&version_name=${project.android.defaultConfig.versionName}")
+//                })
+//                content
+//            })
+//        }
+//    }
+//}

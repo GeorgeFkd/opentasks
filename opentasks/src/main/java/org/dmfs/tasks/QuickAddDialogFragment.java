@@ -16,6 +16,7 @@
 
 package org.dmfs.tasks;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -198,10 +199,11 @@ public class QuickAddDialogFragment extends SupportDialogFragment
     }
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        final Context contextThemeWrapperDark = new ContextThemeWrapper(getActivity(), R.style.Base_Theme_AppCompat);
+        final Context contextThemeWrapperDark = new ContextThemeWrapper(getActivity(), org.dmfs.android.carrot.R.style.Base_Theme_AppCompat);
 
         View view = inflater.inflate(R.layout.fragment_quick_add_dialog, container);
 

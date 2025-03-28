@@ -55,7 +55,7 @@ public class TaskListWidgetProvider extends AppWidgetProvider
     public static String ACTION_CREATE_TASK = "CreateTask";
 
 
-    /*
+    /**
      * Override the onReceive method from the {@link BroadcastReceiver } class so that we can intercept broadcast for manual refresh of widget.
      *
      * @see android.appwidget.AppWidgetProvider#onReceive(android.content.Context, android.content.Intent)
@@ -132,7 +132,7 @@ public class TaskListWidgetProvider extends AppWidgetProvider
     }
 
 
-    /*
+    /**
      * This method is called periodically to update the widget.
      *
      * @see android.appwidget.AppWidgetProvider#onUpdate(android.content.Context, android.appwidget.AppWidgetManager, int[])

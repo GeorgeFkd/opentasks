@@ -29,7 +29,7 @@ import android.content.Intent;
 public class TaskListWidgetProviderLarge extends TaskListWidgetProvider
 {
 
-    /*
+    /**
      * Override the onReceive method from the {@link BroadcastReceiver } class so that we can intercept broadcast for manual refresh of widget.
      *
      * @see android.appwidget.AppWidgetProvider#onReceive(android.content.Context, android.content.Intent)

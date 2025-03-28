@@ -60,7 +60,7 @@ public final class PermissionRequestDialogFragment extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        TextView messageView = (TextView) LayoutInflater.from(getContext()).inflate(R.layout.dialog_message, null, false);
+        TextView messageView = (TextView) getLayoutInflater().inflate(R.layout.dialog_message, null, false);
         messageView.setText(
                 Html.fromHtml(
                         getString(R.string.opentasks_permission_request_dialog_getaccounts_message,

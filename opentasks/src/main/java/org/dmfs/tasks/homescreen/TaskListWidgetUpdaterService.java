@@ -63,7 +63,7 @@ public class TaskListWidgetUpdaterService extends RemoteViewsService
     private final static String TAG = "TaskListWidgetUpdaterService";
 
 
-    /*
+    /**
      * Return an instance of {@link TaskListViewsFactory}
      *
      * @see android.widget.RemoteViewsService#onGetViewFactory(android.content.Intent)
@@ -258,7 +258,7 @@ public class TaskListWidgetUpdaterService extends RemoteViewsService
         }
 
 
-        /*
+        /**
          * Don't show any loading views
          *
          * @see android.widget.RemoteViewsService.RemoteViewsFactory#getLoadingView()
@@ -270,7 +270,7 @@ public class TaskListWidgetUpdaterService extends RemoteViewsService
         }
 
 
-        /*
+        /**
          * Only single type of list item.
          *
          * @see android.widget.RemoteViewsService.RemoteViewsFactory#getViewTypeCount()
@@ -282,7 +282,7 @@ public class TaskListWidgetUpdaterService extends RemoteViewsService
         }
 
 
-        /*
+        /**
          * The position corresponds to the ID.
          *
          * @see android.widget.RemoteViewsService.RemoteViewsFactory#getItemId(int)
@@ -294,7 +294,7 @@ public class TaskListWidgetUpdaterService extends RemoteViewsService
         }
 
 
-        /*
+        /**
          *
          *
          * @see android.widget.RemoteViewsService.RemoteViewsFactory#hasStableIds()
@@ -306,7 +306,7 @@ public class TaskListWidgetUpdaterService extends RemoteViewsService
         }
 
 
-        /*
+        /**
          * Nothing to do when data set is changed.
          *
          * @see android.widget.RemoteViewsService.RemoteViewsFactory#onDataSetChanged()
@@ -325,7 +325,7 @@ public class TaskListWidgetUpdaterService extends RemoteViewsService
         }
 
 
-        /*
+        /**
          * @see org.dmfs.tasks.utils.TimeChangeListener#onTimeUpdate(org.dmfs.tasks.utils.TimeChangeObserver)
          */
         @Override
@@ -336,7 +336,7 @@ public class TaskListWidgetUpdaterService extends RemoteViewsService
         }
 
 
-        /*
+        /**
          * This function is not used.
          *
          * @see org.dmfs.tasks.utils.TimeChangeListener#onAlarm(org.dmfs.tasks.utils.TimeChangeObserver)

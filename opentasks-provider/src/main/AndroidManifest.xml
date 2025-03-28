@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        package="org.dmfs.tasks.provider">
+        >
 
     <permission-group
             android:name="org.dmfs.tasks.permissiongroup.Tasks"

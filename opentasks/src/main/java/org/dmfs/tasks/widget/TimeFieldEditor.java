@@ -452,7 +452,7 @@ public final class TimeFieldEditor extends AbstractFieldEditor implements OnDate
                         pf.setAccessible(true);
                         try
                         {
-                            pf.set(picker, new ColorDrawable(getResources().getColor(R.color.material_deep_teal_500)));
+                            pf.set(picker, new ColorDrawable(getResources().getColor(org.dmfs.tasks.theme.R.color.material_teal_500)));
                         }
                         catch (IllegalArgumentException e)
                         {
