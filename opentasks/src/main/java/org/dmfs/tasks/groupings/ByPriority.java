@@ -221,7 +221,14 @@ public class ByPriority extends AbstractGroupingFactory
          */
         private String getTitle(Cursor cursor, Context context)
         {
-            return context.getString(cursor.getInt(cursor.getColumnIndex(PriorityCursorFactory.PRIORITY_TITLE_RES_ID)));
+            int colIndex = cursor.getColumnIndex(PriorityCursorFactory.PRIORITY_TITLE_RES_ID);
+            if (colIndex > 0){
+                return context.getString(cursor.getInt(colIndex));
+            }
+
+            return "";
+
+//            return context.getString(cursor.getInt(cursor.getColumnIndex(PriorityCursorFactory.PRIORITY_TITLE_RES_ID)));
         }
 
 

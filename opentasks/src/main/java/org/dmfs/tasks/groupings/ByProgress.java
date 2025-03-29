@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import org.dmfs.tasks.R;
 import org.dmfs.tasks.contract.TaskContract.Instances;
+import org.dmfs.tasks.groupings.cursorloaders.PriorityCursorFactory;
 import org.dmfs.tasks.groupings.cursorloaders.ProgressCursorFactory;
 import org.dmfs.tasks.groupings.cursorloaders.ProgressCursorLoaderFactory;
 import org.dmfs.tasks.utils.ExpandableChildDescriptor;
@@ -163,7 +164,14 @@ public class ByProgress extends AbstractGroupingFactory
          */
         private String getTitle(Cursor cursor, Context context)
         {
-            return context.getString(cursor.getInt(cursor.getColumnIndex(ProgressCursorFactory.PROGRESS_TITLE_RES_ID)));
+            int colIndex = cursor.getColumnIndex(ProgressCursorFactory.PROGRESS_TITLE_RES_ID);
+            if (colIndex > 0){
+                return context.getString(cursor.getInt(colIndex));
+            }
+
+            return "";
+
+//            return context.getString(cursor.getInt(cursor.getColumnIndex(ProgressCursorFactory.PROGRESS_TITLE_RES_ID)));
         }
 
 

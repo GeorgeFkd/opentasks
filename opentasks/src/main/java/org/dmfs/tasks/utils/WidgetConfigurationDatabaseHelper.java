@@ -16,6 +16,7 @@
 
 package org.dmfs.tasks.utils;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -160,7 +161,7 @@ public class WidgetConfigurationDatabaseHelper extends SQLiteOpenHelper
         }
         do
         {
-            Long listId = c.getLong(c.getColumnIndex(WidgetConfigurationColumns.LIST_ID));
+            @SuppressLint("Range") Long listId = c.getLong(c.getColumnIndex(WidgetConfigurationColumns.LIST_ID));
             lists.add(listId);
         } while (c.moveToNext());
         c.close();

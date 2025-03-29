@@ -16,6 +16,7 @@
 
 package org.dmfs.tasks.groupings;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -194,7 +195,7 @@ public class ByStartDate extends AbstractGroupingFactory
          */
         private String getTitle(Cursor cursor, Context context)
         {
-            int type = cursor.getInt(cursor.getColumnIndex(TimeRangeCursorFactory.RANGE_TYPE));
+            @SuppressLint("Range") int type = cursor.getInt(cursor.getColumnIndex(TimeRangeCursorFactory.RANGE_TYPE));
             if (type == 0)
             {
                 return context.getString(R.string.task_group_start_started);

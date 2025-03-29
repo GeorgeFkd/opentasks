@@ -136,6 +136,7 @@ public class BySearch extends AbstractGroupingFactory
     public final ViewDescriptor GROUP_VIEW_DESCRIPTOR = new ViewDescriptor()
     {
 
+        @SuppressLint("Range")
         @Override
         public void populateView(View view, Cursor cursor, BaseExpandableListAdapter adapter, int flags)
         {
@@ -154,6 +155,7 @@ public class BySearch extends AbstractGroupingFactory
             TextView text1 = (TextView) view.findViewById(android.R.id.text1);
             if (text1 != null)
             {
+
                 text1.setText(DateUtils.getRelativeTimeSpanString(
                         cursor.getLong(cursor.getColumnIndex(SearchHistoryDatabaseHelper.SearchHistoryColumns.TIMESTAMP)), now, DateUtils.MINUTE_IN_MILLIS));
             }
@@ -273,6 +275,7 @@ public class BySearch extends AbstractGroupingFactory
          *
          * @return A {@link String} with the group name.
          */
+        @SuppressLint("Range")
         private String getTitle(Cursor cursor, Context context)
         {
             return cursor.getString(cursor.getColumnIndex(SearchHistoryDatabaseHelper.SearchHistoryColumns.SEARCH_QUERY));

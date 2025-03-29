@@ -17,6 +17,7 @@
 package org.dmfs.tasks;
 
 import android.accounts.Account;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.DialogInterface;
@@ -151,6 +152,7 @@ public class ManageListActivity extends BaseActivity implements OnClickListener,
      * @param savedInstanceState
      *         saved activity state from {@link #onCreate(Bundle)}
      */
+    @SuppressLint("Range")
     private void initEditing(Bundle savedInstanceState)
     {
         mStateInsert = false;

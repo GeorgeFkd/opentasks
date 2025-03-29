@@ -16,6 +16,7 @@
 
 package org.dmfs.tasks.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 
@@ -68,6 +69,7 @@ public class SearchChildDescriptor extends ExpandableChildDescriptor
      *
      * @return A new {@link CursorLoader} instance.
      */
+    @SuppressLint("Range")
     @Override
     public CursorLoader getCursorLoader(Context context, Cursor cursor, AbstractFilter filter)
     {

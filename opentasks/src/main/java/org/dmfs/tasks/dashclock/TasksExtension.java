@@ -16,6 +16,7 @@
 
 package org.dmfs.tasks.dashclock;
 
+import android.annotation.SuppressLint;
 import android.content.ContentUris;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -159,7 +160,7 @@ public class TasksExtension extends DashClockExtension
 
                 boolean isAllDay = allDayTaskCount > 0;
 
-                String description = c.getString(c.getColumnIndex(Tasks.DESCRIPTION));
+                @SuppressLint("Range") String description = c.getString(c.getColumnIndex(Tasks.DESCRIPTION));
                 if (description != null)
                 {
                     description = description.replaceAll("\\[\\s?\\]", " ").replaceAll("\\[[xX]\\]", "✓");
@@ -167,8 +168,8 @@ public class TasksExtension extends DashClockExtension
                 String title = getTaskTitleDisplayString(c, isAllDay);
 
                 // intent
-                String accountType = c.getString(c.getColumnIndex(Instances.ACCOUNT_TYPE));
-                long taskId = c.getLong(c.getColumnIndex(Instances._ID));
+                @SuppressLint("Range") String accountType = c.getString(c.getColumnIndex(Instances.ACCOUNT_TYPE));
+                @SuppressLint("Range") long taskId = c.getLong(c.getColumnIndex(Instances._ID));
                 Intent clickIntent = buildClickIntent(taskId, accountType);
 
                 // Publish the extension data update.
@@ -235,6 +236,7 @@ public class TasksExtension extends DashClockExtension
     }
 
 
+    @SuppressLint("Range")
     private String getTaskTitleDueString(Cursor c, boolean isAllDay)
     {
         if (isAllDay)
@@ -255,6 +257,7 @@ public class TasksExtension extends DashClockExtension
     }
 
 
+    @SuppressLint("Range")
     private String getTaskTitleStartString(Cursor c, boolean isAllDay)
     {
         if (isAllDay)
@@ -275,6 +278,7 @@ public class TasksExtension extends DashClockExtension
     }
 
 
+    @SuppressLint("Range")
     private boolean isDueEvent(Cursor c, boolean isAllDay)
     {
         if (c.isNull(c.getColumnIndex(Instances.DUE)))
@@ -286,8 +290,8 @@ public class TasksExtension extends DashClockExtension
             return true;
         }
 
-        Long dueTime = c.getLong(c.getColumnIndex(Instances.DUE));
-        Long startTime = c.getLong(c.getColumnIndex(Instances.DTSTART));
+        @SuppressLint("Range") Long dueTime = c.getLong(c.getColumnIndex(Instances.DUE));
+        @SuppressLint("Range") Long startTime = c.getLong(c.getColumnIndex(Instances.DTSTART));
 
         if (isAllDay)
         {

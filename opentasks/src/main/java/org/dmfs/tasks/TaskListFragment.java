@@ -18,6 +18,7 @@ package org.dmfs.tasks;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentResolver;
@@ -654,7 +655,7 @@ public class TaskListFragment extends SupportFragment
 
             if (cursor != null)
             {
-                int taskStatus = cursor.getInt(cursor.getColumnIndex(Instances.STATUS));
+                @SuppressLint("Range") int taskStatus = cursor.getInt(cursor.getColumnIndex(Instances.STATUS));
                 if (leftFlingView != null && rightFlingView != null)
                 {
                     if (taskStatus == Instances.STATUS_COMPLETED)
@@ -687,6 +688,7 @@ public class TaskListFragment extends SupportFragment
     }
 
 
+    @SuppressLint("Range")
     @Override
     public boolean onFlingEnd(ListView v, View listElement, int pos, int direction)
     {
@@ -699,10 +701,10 @@ public class TaskListFragment extends SupportFragment
 
             if (cursor != null)
             {
-                long instanceId = cursor.getLong(cursor.getColumnIndex(Instances._ID));
+                @SuppressLint("Range") long instanceId = cursor.getLong(cursor.getColumnIndex(Instances._ID));
 
-                boolean closed = cursor.getLong(cursor.getColumnIndex(Instances.IS_CLOSED)) > 0;
-                String title = cursor.getString(cursor.getColumnIndex(Instances.TITLE));
+                @SuppressLint("Range") boolean closed = cursor.getLong(cursor.getColumnIndex(Instances.IS_CLOSED)) > 0;
+                @SuppressLint("Range") String title = cursor.getString(cursor.getColumnIndex(Instances.TITLE));
                 // TODO: use the instance URI once we support recurrence
                 Uri taskUri = ContentUris.withAppendedId(Instances.getContentUri(mAuthority), instanceId);
 
@@ -920,6 +922,7 @@ public class TaskListFragment extends SupportFragment
     }
 
 
+    @SuppressLint("Range")
     public void expandCurrentSearchGroup()
     {
         if (mPageId == R.id.task_group_search && mAdapter.getGroupCount() > 0)
@@ -978,7 +981,7 @@ public class TaskListFragment extends SupportFragment
             Long taskIdToSelect = Long.valueOf(taskUri.getLastPathSegment());
             do
             {
-                Long taskId = listCursor.getLong(listCursor.getColumnIndex(Tasks._ID));
+                @SuppressLint("Range") Long taskId = listCursor.getLong(listCursor.getColumnIndex(Tasks._ID));
                 if (taskId.equals(taskIdToSelect))
                 {
                     return listCursor.getPosition();
