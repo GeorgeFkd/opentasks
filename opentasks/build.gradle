@@ -1,3 +1,5 @@
+import javax.net.ssl.HttpsURLConnection
+
 apply plugin: 'com.android.application'
 if (project.hasProperty('PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS')) {
     apply plugin: 'com.github.triplet.play'
@@ -96,6 +98,7 @@ dependencies {
 
     androidTestImplementation deps.support_test_runner
     androidTestImplementation deps.support_test_rules
+    androidTestImplementation deps.junit_android_test_ext
     implementation project(path: ':opentaskspal')
 
     implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
@@ -104,43 +107,43 @@ dependencies {
     implementation 'com.maltaisn:recurpicker:2.1.4'
 }
 
-//if (project.hasProperty('PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS')) {
-//    play {
-//        serviceAccountCredentials = file(PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS)
-//        // the track is determined automatically by the version number format
-//        switch (version) {
-//            case ~/^(\d+)(\.\d+)*(-\d+-[\w\d]+)?-dirty$/:
-//                // work in progress goes to the internal track
-//                track = "internal"
-//                break
-//            case ~/^(\d+)(\.\d+)*-\d+-[\w\d]+$/:
-//                // untagged commits go to alpha
-//                track = "alpha"
-//                break
-//            case ~/^(\d+)(\.\d+)*$/:
-//                // tagged commits to go beta, from where they get promoted to releases
-//                track = "beta"
-//                break
-//            default:
-//                throw new IllegalArgumentException("Unrecognized version format")
-//        }
-//    }
-//}
+if (project.hasProperty('PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS')) {
+    play {
+        serviceAccountCredentials = file(PLAY_STORE_SERVICE_ACCOUNT_CREDENTIALS)
+        // the track is determined automatically by the version number format
+        switch (version) {
+            case ~/^(\d+)(\.\d+)*(-\d+-[\w\d]+)?-dirty$/:
+                // work in progress goes to the internal track
+                track = "internal"
+                break
+            case ~/^(\d+)(\.\d+)*-\d+-[\w\d]+$/:
+                // untagged commits go to alpha
+                track = "alpha"
+                break
+            case ~/^(\d+)(\.\d+)*$/:
+                // tagged commits to go beta, from where they get promoted to releases
+                track = "beta"
+                break
+            default:
+                throw new IllegalArgumentException("Unrecognized version format")
+        }
+    }
+}
 
-//task postVersion {
-//    doLast {
-//        if (project.hasProperty('OPENTASKS_API_KEY')) {
-//            // publish version number on api.opentasks.app
-//            ((HttpsURLConnection) new URL('https://opentasks-app.appspot.com/v1/app/latest_version/').openConnection()).with({
-//                requestMethod = 'POST'
-//                doOutput = true
-//                setRequestProperty('Content-Type', 'application/x-www-form-urlencoded')
-//                setRequestProperty('Authorization', "Token token=\"${OPENTASKS_API_KEY}\"")
-//                outputStream.withPrintWriter({ printWriter ->
-//                    printWriter.write("version_code=${project.android.defaultConfig.versionCode}&version_name=${project.android.defaultConfig.versionName}")
-//                })
-//                content
-//            })
-//        }
-//    }
-//}
+task postVersion {
+    doLast {
+        if (project.hasProperty('OPENTASKS_API_KEY')) {
+            // publish version number on api.opentasks.app
+            ((HttpsURLConnection) new URL('https://opentasks-app.appspot.com/v1/app/latest_version/').openConnection()).with({
+                requestMethod = 'POST'
+                doOutput = true
+                setRequestProperty('Content-Type', 'application/x-www-form-urlencoded')
+                setRequestProperty('Authorization', "Token token=\"${OPENTASKS_API_KEY}\"")
+                outputStream.withPrintWriter({ printWriter ->
+                    printWriter.write("version_code=${project.android.defaultConfig.versionCode}&version_name=${project.android.defaultConfig.versionName}")
+                })
+                content
+            })
+        }
+    }
+}

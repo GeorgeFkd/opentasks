@@ -15,8 +15,7 @@
  */
 
 package org.dmfs.tasks.utils;
-
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.text.format.Time;
 
 import org.dmfs.rfc5545.DateTime;
