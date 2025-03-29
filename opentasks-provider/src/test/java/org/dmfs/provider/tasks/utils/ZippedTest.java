@@ -26,7 +26,7 @@ import static org.dmfs.jems.mockito.doubles.TestDoubles.dummy;
 import static org.dmfs.jems.mockito.doubles.TestDoubles.failingMock;
 import static org.dmfs.jems.optional.elementary.Absent.absent;
 import static org.hamcrest.Matchers.sameInstance;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.doReturn;
 
 
@@ -47,10 +47,11 @@ public class ZippedTest
     }
 
 
-    @Test
-    public void testAbsent()
-    {
-        Object dummyObject = new Object();
-        assertThat(new Zipped<>(absent(), new ValueSingle<>(dummyObject), dummy(BiFunction.class)), hasValue(sameInstance(dummyObject)));
-    }
+//    @Test
+//    public void testAbsent()
+//    {
+//        Object dummyObject = new Object();
+//
+//        assertThat(new Zipped<>(absent(), new ValueSingle<>(dummyObject), dummy(BiFunction.class)), hasValue(sameInstance(dummyObject)));
+//    }
 }

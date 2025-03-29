@@ -16,6 +16,7 @@
 
 package org.dmfs.provider.tasks.handler;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -166,6 +167,7 @@ public class RelationHandler extends PropertyHandler
      * @param values
      * @param oldValues
      */
+    @SuppressLint("Range")
     private void updateParentId(SQLiteDatabase db, long taskId, ContentValues values, Cursor oldValues)
     {
         int type;
@@ -228,7 +230,7 @@ public class RelationHandler extends PropertyHandler
      */
     private void clearParentId(SQLiteDatabase db, long taskId, Cursor oldValues)
     {
-        int type = oldValues.getInt(oldValues.getColumnIndex(Relation.RELATED_TYPE));
+        @SuppressLint("Range") int type = oldValues.getInt(oldValues.getColumnIndex(Relation.RELATED_TYPE));
 
         /*
          * This is more complicated than it may sound. We don't know the order in which relations are created, updated or removed. So it's possible that a new

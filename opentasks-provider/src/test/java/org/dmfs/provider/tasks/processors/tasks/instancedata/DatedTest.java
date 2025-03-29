@@ -28,7 +28,7 @@ import org.robolectric.annotation.Config;
 
 import static org.dmfs.jems.optional.elementary.Absent.absent;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 
 /**

@@ -16,6 +16,7 @@
 
 package org.dmfs.tasks.groupings;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
@@ -136,6 +137,7 @@ public class ByList extends AbstractGroupingFactory
     public final ViewDescriptor GROUP_VIEW_DESCRIPTOR = new ViewDescriptor()
     {
 
+        @SuppressLint("Range")
         @Override
         public void populateView(View view, Cursor cursor, BaseExpandableListAdapter adapter, int flags)
         {
